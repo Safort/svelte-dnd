@@ -8,7 +8,7 @@
     "start": "rollup -c -w",
     "build": "rollup -c",
     "dev": "sirv public --dev",
-    "postinstall": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "author": "Safort",
   "license": "ISC",
