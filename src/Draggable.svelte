@@ -3,7 +3,6 @@
   export let props = {};
 
   import { get } from 'svelte/store';
-  import { activeDropZone, dropZoneList } from './stores';
   import { onmousedown, onmouseup } from './lib';
 
   const onMouseDown = (event) => {
