@@ -6,7 +6,7 @@
   "module": "./build/index.mjs",
   "scripts": {
     "start": "rollup -c -w",
-    "build": "rollup -c",
+    "build": "NODE_ENV=production rollup -c",
     "dev": "sirv public --dev",
     "prepublishOnly": "npm run build"
   },

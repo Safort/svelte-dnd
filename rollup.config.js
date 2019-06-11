@@ -5,6 +5,8 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import pkg from './package.json';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const dndBuild = {
   input: 'src/Dnd.ts',
   output: [
@@ -20,7 +22,7 @@ const dndBuild = {
   ]
 };
 
-const examples = {
+const examples = () => ({
   input: 'examples/examples.ts',
   output: { file: 'examples/build/examples.js', format: 'iife' },
   plugins: [
@@ -32,6 +34,10 @@ const examples = {
     svelte(),
     commonjs(),
   ]
-};
+});
 
-export default [dndBuild, examples];
+const exportConfig = [dndBuild];
+
+!isProd && exportConfig.push(examples());
+
+export default exportConfig;
