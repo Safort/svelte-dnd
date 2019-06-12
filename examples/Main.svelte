@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { Context, Draggable, DropZone } from '../build/index.mjs';
+  import { Context, Draggable, DropZone } from '../lib/cjs';
   import Item from './Item.svelte';
 
   let dz1Active = false;

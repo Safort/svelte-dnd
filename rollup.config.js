@@ -11,7 +11,8 @@ const dndBuild = {
   input: 'src/Dnd.ts',
   output: [
     { file: pkg.module, format: 'es' },
-    { file: pkg.main, format: 'umd', name: 'Dnd' }
+    { file: pkg.main, format: 'cjs' },
+    { file: './lib/umd/index.js', format: 'umd', name: 'SvelteDnd' },
   ],
   plugins: [
     resolve({
