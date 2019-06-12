@@ -1,7 +1,7 @@
 {
   "name": "svelte-dnd",
   "version": "0.0.6",
-  "description": "Drag and Drop",
+  "description": "Drag and Drop library for Svelte",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.mjs",
   "scripts": {
@@ -26,15 +26,14 @@
     "type": "git",
     "url": "https://github.com/Safort/svelte-dnd.git"
   },
-  "dependencies": {
-    "svelte": "^3.2.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "rollup": "^1.11.3",
-    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup": "^1.15.1",
+    "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-node-resolve": "^5.0.1",
     "rollup-plugin-serve": "^1.0.1",
-    "rollup-plugin-svelte": "^5.0.3"
+    "rollup-plugin-svelte": "^5.1.0",
+    "svelte": "^3.5.1"
   }
 }
