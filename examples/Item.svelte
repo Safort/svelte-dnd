@@ -13,6 +13,4 @@
   }
 </style>
   
-<div on:click={onClick}>
-  Item: {name}
-</div>
+<div on:click={onClick}>{name}</div>

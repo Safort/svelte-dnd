@@ -3,40 +3,52 @@
   import { Context, Draggable, DropZone } from '../lib/cjs';
   import Item from './Item.svelte';
 
-  let dz1Active = false;
-  let dz2Active = false;
+  $: dropZones = {
+    DZ1: {
+      items: [{ name: 'Item 1' }, { name: 'Item 2' }],
+      isActive: false,
+    },
+    DZ2: {
+      items: [{ name: 'Item 3' }, { name: 'Item 4' }],
+      isActive: false,
+    },
+    DZ3: {
+      items: [{ name: 'Item 5' }, { name: 'Item 6' }],
+      isActive: false,
+    },
+  };
 
-  function onDrop(data) {
-    console.log('Main onDrop', data.detail)
+  function onDrop({ detail }) {
+    console.log('onDrop', detail)
+    const item = detail.item;
+    const newDZList = { ...dropZones };
+
+    newDZList[detail.to].items.push(item.props);
+    newDZList[detail.from].items = newDZList[detail.from].items.filter(i => i.name !== item.props.name);
+
+    dropZones = newDZList;
   }
 
   function onDragOver(data) {
-    if (data.detail.dropZoneId === 'DZ-1') {
-      dz1Active = true;
-    }
-    if (data.detail.dropZoneId === 'DZ-2') {
-      dz2Active = true;
-    }
+    const newDZ = { ...dropZones };
+
+    newDZ[data.detail.dropZoneId].isActive = true;
+    dropZones = newDZ;
   }
 
   function onDragOut(data) {
-    if (data.detail.dropZoneId === 'DZ-1') {
-      dz1Active = false;
-    }
-    if (data.detail.dropZoneId === 'DZ-2') {
-      dz2Active = false;
-    }
-  }
+    const newDZ = { ...dropZones };
 
-  $: dz1 = `dropzone${dz1Active ? ' active' : ''}`;
-  $: dz2 = `dropzone${dz2Active ? ' active' : ''}`;
+    newDZ[data.detail.dropZoneId].isActive = false;
+    dropZones = newDZ;
+  }
 </script>
 
 <style>
   div {
     background: #eee;
     color: red;
-    display: inline-block;
+    display: flex;
     margin: 2px;
     padding: 20px;
   }
@@ -54,13 +66,18 @@
 
 <div>
   <Context>
-    <DropZone classes={dz1} on:drop={onDrop} on:dragover={onDragOver} on:dragout={onDragOut} id="DZ-1">
-      <Draggable component={Item} props={{name: 'One'}} />
-      <Draggable component={Item} props={{name: 'Two'}} />
-    </DropZone>
-    <DropZone classes={dz2} on:drop={onDrop} on:dragover={onDragOver} on:dragout={onDragOut} id="DZ-2">
-      <Draggable component={Item} props={{name: 'Three'}} />
-      <Draggable component={Item} props={{name: 'Four'}} />
-    </DropZone>
+    {#each Object.keys(dropZones) as dz}
+      <DropZone
+        classes={`dropzone${dropZones[dz].isActive ? ' active' : ''}`}
+        on:drop={onDrop}
+        on:dragover={onDragOver}
+        on:dragout={onDragOut}
+        id={dz}
+      >
+        {#each dropZones[dz].items as itemProps}
+          <Draggable component={Item} props={itemProps} />
+        {/each}
+      </DropZone>
+    {/each}
   </Context>
 </div>
