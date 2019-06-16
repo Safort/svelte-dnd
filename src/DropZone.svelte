@@ -40,8 +40,8 @@
 	  }
 	});
 	
-	lastDropStore.subscribe(value => {
-		if (value === id) {
+	lastDropStore.subscribe(dzId => {
+		if (dzId === id) {
 			dispatch('drop', {
 				to: id,
 				from: get(dropFromStore),

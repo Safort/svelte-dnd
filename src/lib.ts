@@ -139,6 +139,7 @@ export function onmousemove(event) {
 
 export function clearDragData() {
   activeDropZoneStore.set('');
+  lastDropStore.set(null);
   startedCoordX = 0;
   startedCoordY = 0;
 }

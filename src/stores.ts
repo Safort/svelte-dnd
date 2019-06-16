@@ -19,8 +19,6 @@ export let isMouseDownStore = writable(false);
 
 export let dropFromStore = writable('');
 
-
-
 export function addDropZone(id) {
   const list = [...get(dropZoneListStore)];
 
