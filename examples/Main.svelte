@@ -20,11 +20,11 @@
 
   function onDrop({ detail }) {
     console.log('onDrop', detail)
-    const item = detail.item;
+    const { item } = detail;
     const newDZList = { ...dropZones };
 
-    newDZList[detail.to].items.push(item.props);
     newDZList[detail.from].items = newDZList[detail.from].items.filter(i => i.name !== item.props.name);
+    newDZList[detail.to].items.push(item.props);
 
     dropZones = newDZList;
   }
