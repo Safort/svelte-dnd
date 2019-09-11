@@ -6,7 +6,7 @@
   "module": "./lib/esm/index.mjs",
   "scripts": {
     "start": "rollup -c -w",
-    "build": "NODE_ENV=production rollup -c",
+    "build": "cross-env NODE_ENV=production rollup -c",
     "postinstall": "npm run build"
   },
   "author": "Safort",
@@ -28,6 +28,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "cross-env": "^5.2.1",
     "rollup": "^1.17.0",
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-livereload": "^1.0.1",
