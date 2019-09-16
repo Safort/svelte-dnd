@@ -3,5 +3,4 @@
 </script>
   
 <svelte:window on:mouseup={onmouseup} />
-
 <slot></slot>

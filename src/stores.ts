@@ -7,7 +7,7 @@ export let dropZoneListStore = writable([]);
 export let lastDropStore = writable('');
 
 export let currentDraggableStore = writable(null);
-export let currentDummyStore = writable(null);
+export let cloneStore = writable(null);
 export let currentStylesStore = writable({});
 export let currentComponentStore = writable(null);
 export let currentPropsStore = writable({});

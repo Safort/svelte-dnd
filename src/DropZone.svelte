@@ -39,7 +39,7 @@
 			}
 	  }
 	});
-	
+
 	lastDropStore.subscribe(dzId => {
 		if (dzId === id) {
 			dispatch('drop', {

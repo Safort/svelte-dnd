@@ -4,7 +4,7 @@ import {
   currentDraggableStore,
   currentComponentStore,
   currentPropsStore,
-  currentDummyStore,
+  cloneStore,
   shiftXStore, shiftYStore,
   currentStylesStore,
   dropFromStore,
@@ -13,15 +13,15 @@ import {
 } from './stores';
 
 let isMouseDown = false;
-let currentDraggable = null;
+let curClone = null;
 let shiftY = 0;
 let shiftX = 0;
 let startedCoordX = 0;
 let startedCoordY = 0;
 let MIN_MOVE_DISTANCE = 3;
 
-currentDraggableStore.subscribe(value => {
-  currentDraggable = value;
+cloneStore.subscribe(value => {
+  curClone = value;
 });
 isMouseDownStore.subscribe(value => {
   isMouseDown = value;
@@ -59,17 +59,19 @@ export function getDropZone(drag, event) {
 }
 
 export function onmousedown(event, component, props) {
+  const current = event.target; 
+
   currentComponentStore.set(component);
   currentPropsStore.set(props);
   isMouseDownStore.set(true);
-  currentDraggableStore.set(event.target);
-
-  const current = get(currentDraggableStore);
+  currentDraggableStore.set(current);
 
   if (current) {
     window.addEventListener('mousemove', onmousemove);
-    currentDummyStore.set(current.cloneNode(true));
+    const clone = current.cloneNode(true);
     const rect = getCoords(current);
+
+    cloneStore.set(clone);
     startedCoordY = event.pageY;
     startedCoordX = event.pageX;
     shiftYStore.set(event.pageY - rect.top);
@@ -80,8 +82,10 @@ export function onmousedown(event, component, props) {
       top: current.style.top,
       left: current.style.left,
     });
-    current.style.position = 'fixed';
-    current.after(get(currentDummyStore));
+    current.after(clone);
+    clone.style.position = 'fixed';
+    clone.style.top = rect.top + 'px';
+    clone.style.left = rect.left + 'px';
   
     const dropZone = getDropZone(current, event);
     dropZone && dropFromStore.set(dropZone.getAttribute('dropzone-id'))
@@ -90,21 +94,17 @@ export function onmousedown(event, component, props) {
 
 export function onmouseup(event) {
   window.removeEventListener('mousemove', onmousemove);
-  const dummy = get(currentDummyStore);
+  const clone = get(cloneStore);
   const current = get(currentDraggableStore);
-  const currentStyles = get(currentStylesStore);
 
   isMouseDownStore.set(false);
-  dummy && dummy.remove();
-  currentDummyStore.set(null);
+  clone && clone.remove();
+  cloneStore.set(null);
 
   if (!current) {
     return;
   }
 
-  current.style.position = currentStyles.position;
-  current.style.top = currentStyles.top;
-  current.style.left = currentStyles.left;
   shiftYStore.set(0);
   shiftXStore.set(0);
 
@@ -124,18 +124,17 @@ function isFarEnouth(event) {
 }
 
 export function onmousemove(event) {
-  if (isMouseDown && currentDraggable && isFarEnouth(event)) {
-    currentDraggable.style.top = event.pageY - shiftY + 'px';
-    currentDraggable.style.left = event.pageX - shiftX + 'px';
+  if (isMouseDown && curClone && isFarEnouth(event)) {
+    curClone.style.top = event.pageY - shiftY + 'px';
+    curClone.style.left = event.pageX - shiftX + 'px';
 
-    const droppZone = getDropZone(currentDraggable, event);
+    const droppZone = getDropZone(curClone, event);
     const dropapbleId = droppZone && droppZone.getAttribute('dropzone-id');
     if (dropapbleId !== get(activeDropZoneStore)) {
       activeDropZoneStore.set(dropapbleId);
     }
   }
 }
-
 
 export function clearDragData() {
   activeDropZoneStore.set('');
