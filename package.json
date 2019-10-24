@@ -1,12 +1,12 @@
 {
   "name": "svelte-dnd",
-  "version": "0.0.9",
+  "version": "0.0.8",
   "description": "Drag and Drop library for Svelte",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.mjs",
   "scripts": {
     "start": "rollup -c -w",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "./node_modules/.bin/cross-env NODE_ENV=production rollup -c",
     "postinstall": "npm run build"
   },
   "author": "Safort",
@@ -27,15 +27,14 @@
     "url": "https://github.com/Safort/svelte-dnd.git"
   },
   "dependencies": {
-    "cross-env": "^5.2.1"
-  },
-  "devDependencies": {
-    "rollup": "^1.21.2",
+    "cross-env": "^6.0.3",
+    "rollup": "^1.25.2",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-livereload": "^1.0.1",
+    "rollup-plugin-livereload": "^1.0.4",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-svelte": "^5.1.0",
     "svelte": "^3.12.1"
-  }
+  },
+  "devDependencies": {}
 }
